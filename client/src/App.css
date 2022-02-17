@@ -1,0 +1,125 @@
+*{
+  padding: 0;
+  margin: 0;
+  color: white;
+  font-family: 'Montserrat';
+  /* outline: 1px solid red; */
+  font-size: 20px;
+}
+body{
+  background: rgb(104, 104, 207);
+  background: linear-gradient(90deg, rgb(142, 108, 255) 0%, rgb(80, 58, 204) 100%);
+}
+h1{
+  text-align: center;
+  background: #00000045;
+  font-size: 32px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+a{
+  text-decoration: none;
+}
+input{
+  border-radius: 2px;
+  padding: 5px 15px;
+  border: none;
+  background: none;
+  cursor: default;
+}
+input:focus{
+  color: black;
+  background: white;
+  cursor:text;
+}
+textarea{
+  resize: none;
+  outline: none;
+  border: none;
+  border-radius: 2px;
+  color: black;
+  padding: 10px;
+}
+.buttons{
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px;
+}
+.board{
+  margin: 0 10vw;
+}
+.board > div{
+  display: flex;
+  justify-content: space-between;
+}
+.column-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap:30px;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+.column{
+  background: #00000045;
+  flex: 1;
+  border-radius: 2px;
+}
+.col-head{
+  background: #00000045;
+  padding: 5px 10px;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.col-body{
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.task-list{
+  display: flex;
+  flex-direction: column;
+  /* background: red; */
+  gap: 5px;
+  margin-top: 10px;
+  padding-bottom: 50px;
+  min-height: 75px;
+}
+.task{
+  background: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: move;
+  border-radius: 2px;
+}
+.task p{
+  color: black;
+}
+.btn{
+  border: none;
+  padding: 7px 20px;
+  background: #00000045;
+  border-radius: 2px;
+  text-align: center;
+  min-width: 100px;
+  /* background: #00000000; */
+  /* font-size: 16px; */
+  /* border-radius: 5px; */
+}
+.icon{
+  background: #00000000;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+}
+.task .icon{
+  color: #0000007c;
+}
+.icon:hover{
+  background: #00000025;
+}

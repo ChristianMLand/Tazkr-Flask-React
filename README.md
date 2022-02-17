@@ -1,0 +1,13 @@
+# TODO
+- keep track of moved tasks with websockets
+- keep track of edited column titles with websockets
+- share button should create board in database
+    - using data from localstorage if exists
+    - redirects to that board view
+    - allow setting a password when creating the board/sharing
+    - require password to match in query string in order to have write permissions
+    - if no password or wrong password have read permissions only
+- implement import/export to/from json files
+- fix bugs
+- implement live chat for connected users
+    - randomly generated usernames unique per connected client
