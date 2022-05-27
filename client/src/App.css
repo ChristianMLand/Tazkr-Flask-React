@@ -95,6 +95,9 @@ textarea{
   justify-content: space-between;
   cursor: move;
   border-radius: 2px;
+  max-height: 70px;
+  overflow-y: hidden;
+  /* box-sizing: content-box; */
 }
 .task p{
   color: black;

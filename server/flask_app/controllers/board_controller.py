@@ -26,14 +26,16 @@ def create_board():
 # Socket listeners
 @socketio.on('join_board')
 def handle_join_board(data):
+    print("CONNECTED!!!!!")
     #TODO actually handle users
     join_room(data['board_id'])
     emit('user_joined', data, room=str(data['board_id']))
 
 @socketio.on('add_column')
 def handle_add_column(data):
-    col_id = Column.create(index=data['index'], title=data['title'], board_id=data['board_id'])
-    emit('add_column', Column.get_one(id=col_id).json, room=str(data['board_id']))
+    col_id = Column.create(title=data['title'], board_id=data['board_id'])
+    col = Column.get_one(id=col_id)
+    emit('add_column', col.json, room=str(data['board_id']))
 
 @socketio.on('del_column')
 def handle_del_column(data):
@@ -43,21 +45,26 @@ def handle_del_column(data):
 @socketio.on('add_task')
 def handle_add_task(data):
     task_id = Task.create(index=data['index'], description=data['description'], column_id=data['column_id'])
-    emit('add_task', Task.get_one(id=task_id).json, room=str(data['board_id']))#TODO fix room
+    task = Task.get_one(id=task_id)
+    emit('add_task', task.json, room=str(data['board_id']))
 
 @socketio.on('del_task')
 def handle_del_task(data):
-    Task.delete(id=data['id'])
-    emit('del_task', data, room=str( data['board_id']))#TODO fix room
+    task = data['task']
+    Task.delete(id=task['id'])
+    emit('del_task', task, room=str( data['board_id']))
 
 @socketio.on('move_task')
 def handle_move_task(data):
-    #TODO
-    Column.update(**data)
-    emit('move_task', data)
+    print(data)
+    columns = data['value']
+    for col in columns:
+        for task in col['tasks']:
+            Task.update(id=task['id'], column_id=task['column_id'], index=task['index'])
+    emit('move_task', columns, room=str(data['board_id']))
 
 @socketio.on('update_column')
 def handle_update_column(data):
     #TODO
-    Column.update(**data)
+    Column.update(title=data['title'])
     emit('update_column', data, room=str(data['board_id']))

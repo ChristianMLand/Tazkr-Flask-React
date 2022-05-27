@@ -1,12 +1,12 @@
 import {Draggable} from 'react-beautiful-dnd'
 
-const Task = ({cid,idx,task,deleteTask}) => {
+const Task = ({task, deleteTask}) => {//TODO figure out better way to handle draggable
     return (
-        <Draggable draggableId={`${cid}-${idx}`} index={idx}>
+        <Draggable draggableId={`${task.column_id}-${task.index}`} index={task.index}>
             {provided => (
                 <div className="task" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                     <p>{task.description}</p>
-                    <button onClick={() => deleteTask(idx)} className="material-icons-outlined icon">delete</button>
+                    <button onClick={deleteTask} className="material-icons-outlined icon">delete</button>
                 </div>  
             )}
         </Draggable>

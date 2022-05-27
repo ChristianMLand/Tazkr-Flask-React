@@ -6,7 +6,6 @@ from flask_app.models.task_model import Task
 @dataclass
 class Column(Model):
     id: int
-    index: int
     title: str
     created_at: datetime
     updated_at: datetime
@@ -15,14 +14,15 @@ class Column(Model):
 
     @property
     def tasks(self):
-        return Task.get_all(column_id = self.id)
+        ts = Task.get_all(column_id = self.id)
+        ts.sort(key=lambda t: t.index)
+        return ts
 
     @property
     def json(self):
         print(self.tasks)
         return {
             "id" : self.id,
-            "index" : self.index,
             "title" : self.title,
             "created_at" : str(self.created_at),
             "updated_at" : str(self.updated_at),

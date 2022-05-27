@@ -1,55 +1,69 @@
 import './App.css';
 import {useReducer} from 'react';
-import io from 'socket.io-client';
 import { AppContext } from './libs/contextLib';
+import { socket } from './libs/socketLib';
 import Board from './components/Board'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-const socket = io('http://localhost:5000')
 
-function App() {
+const App = () => {
 
+  function reIndex(column) {
+    for (let i = 0; i < column.tasks.length; i++) {
+      column.tasks[i].index = i
+    }
+  }
 
   function reducer(curState, action) {
     let newState = structuredClone(curState)
-    const actions = {
-      'replace' : (_, value) => structuredClone(value),
+    const value = structuredClone(action.value)
+    const actions = {//TODO refactor remove and update to be cleaner
+      'replace' : (_, value) => value,
       'add' : (list, value) => [...list, value],
-      'remove' : (list, value) => list.filter(v => v.index !== value.index),
-      'update' : (list, value) => list.map(v => v.index === value.index ? value : v)
+      'remove' : (list, value) => list.filter(v => {
+        if (value.index !== undefined) {
+          return v.index !== value.index
+        } else {
+          return v.id !== value.id
+        } 
+      }),
+      'update' : (list, value) => list.map(v => {
+        if (value.index !== undefined) {
+          return v.index === value.index ? value : v
+        } else {
+          return v.id === value.id ? value : v
+        }
+      })
     }
     switch (action.type) {
       case 'column':
-        newState.columns = actions[action.action](curState.columns, action.value)
+        newState.columns = actions[action.action](newState.columns, value);
         break;
-      case 'task':
-        let col = newState.columns[action.value.column_idx]
-        console.log('col: ', col)
-        newState.columns[col.index].tasks = actions[action.action](col.tasks, action.value)
-        console.log('new state: ', newState.columns[col.index].tasks.length)
+      case 'task': 
+        let col = newState.columns.filter((col) => col.id === value.column_id)[0];
+        col.tasks = actions[action.action](col.tasks, value);
+        reIndex(col)
         break;
       case 'board':
-        newState = structuredClone(action.value)
+        newState = value;
         break;
       default:
-        console.log('invalid action')
+        console.log('invalid action');
     }
     return newState
   }
 
-  const [board,dispatch] = useReducer(reducer, {'columns':[]})
+  const [board, dispatch] = useReducer(reducer, {'columns':[]})
 
   return (
-      <div>
+      <AppContext.Provider value={{board, dispatch, socket, reIndex}}>
         <h1>Tazkr</h1>
-        <AppContext.Provider value={{board, dispatch, socket}}>
-          <Router>
-            <Routes>
-              <Route path="/:board_id" element={<Board />} />
-              <Route path="/" element={<Board />} />
-            </Routes>
-          </Router>
-        </AppContext.Provider>
-      </div>
+        <Router>
+          <Routes>
+            <Route path="/:board_id" element={<Board />} />
+            <Route path="/" element={<Board />} />
+          </Routes>
+        </Router>
+      </AppContext.Provider>
   );
 }
 

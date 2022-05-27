@@ -9,6 +9,7 @@ pymysql = "*"
 flask-socketio = "*"
 simple-websocket = "*"
 flask-cors = "*"
+cryptography = "*"
 
 [dev-packages]
 

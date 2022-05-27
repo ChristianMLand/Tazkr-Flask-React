@@ -1,17 +1,17 @@
 import {useState} from 'react';
 import { useAppContext } from '../libs/contextLib';
 
-const TaskForm = ({idx, cid}) => {
-    const [adding,setAdding] = useState(false)
+const TaskForm = ({column}) => {
+    const [adding, setAdding] = useState(false)
     const [description, setDescription] = useState('')
     const {board, dispatch, socket} = useAppContext()
 
     const addTask = () => {
         const task = {
-            index : board.columns[idx].tasks.length,
+            index : column.tasks.length,
             description: description,
-            column_id: cid,
-            column_idx: idx,
+            column_id: column.id,
+            board_id: board.id
         }
         if (board.id) {
             socket.emit('add_task', task)
