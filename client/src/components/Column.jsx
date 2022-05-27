@@ -10,7 +10,7 @@ const Column = ({column, deleteColumn}) => {
         const col = structuredClone(column)
         col.title = title
         if (board.id) {
-            socket.emit('update_column', col)
+            socket.emit('update_column', {board_id:board.id, col})
         } else {
             dispatch({'action': 'update', 'type': 'column', 'value': col})
         }

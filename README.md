@@ -9,7 +9,6 @@ This is a workflow management tool where you can create different tasks and list
 - React Beautiful Dnd
 
 # TODO
-- keep track of edited column titles with websockets - IN PROGRESS
 - implement share button creating board row in database - IN PROGRESS
     - use data from localstorage if exists
     - redirect to the view of the created board - DONE

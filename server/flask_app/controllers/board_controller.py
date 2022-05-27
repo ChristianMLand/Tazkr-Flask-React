@@ -65,6 +65,6 @@ def handle_move_task(data):
 
 @socketio.on('update_column')
 def handle_update_column(data):
-    #TODO
-    Column.update(title=data['title'])
-    emit('update_column', data, room=str(data['board_id']))
+    col = data['col']
+    Column.update(id=col['id'], title=col['title'])
+    emit('update_column', col, room=str(data['board_id']))
