@@ -1,30 +1,19 @@
 import {useState} from 'react';
-import { useAppContext } from '../libs/contextLib';
 
-const TaskForm = ({column}) => {
+const TaskForm = ({addTask}) => {
     const [adding, setAdding] = useState(false)
     const [description, setDescription] = useState('')
-    const {board, dispatch, socket} = useAppContext()
 
-    const addTask = () => {
-        const task = {
-            index : column.tasks.length,
-            description: description,
-            column_id: column.id,
-            board_id: board.id
-        }
-        if (board.id) {
-            socket.emit('add_task', task)
-        } else {
-            dispatch({'action': 'add', 'type': 'task', 'value': task})
-        }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        addTask(description)
         setDescription('')
         setAdding(false)
     };
 
     return (
         adding ? 
-        <> 
+        <form onSubmit={handleSubmit}> 
             <textarea 
                 onChange={e => setDescription(e.target.value)} 
                 placeholder="Task description" 
@@ -32,10 +21,10 @@ const TaskForm = ({column}) => {
                 value={description}
             ></textarea>
             <div className="buttons">
-                <button onClick={addTask} className="btn">Add</button>
-                <button onClick={() => setAdding(false)} className="btn">Cancel</button>
+                <button className="btn">Add</button>
+                <button type="button" onClick={() => setAdding(false)} className="btn">Cancel</button>
             </div>
-        </> :  
+        </form> :  
         <button onClick={() => setAdding(true)} className="btn">+ Add Task</button>
     )
 }

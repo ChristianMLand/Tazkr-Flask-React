@@ -39,6 +39,8 @@ textarea{
   border-radius: 2px;
   color: black;
   padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .buttons{
   display: flex;

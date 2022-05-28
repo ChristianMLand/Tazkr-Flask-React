@@ -23,6 +23,7 @@ class Column(Model):
         print(self.tasks)
         return {
             "id" : self.id,
+            "index" : self.id,
             "title" : self.title,
             "created_at" : str(self.created_at),
             "updated_at" : str(self.updated_at),
